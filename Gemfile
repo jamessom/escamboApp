@@ -27,6 +27,10 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring' # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'better_errors', '~> 2.3' #Provides a better error page for Rails and other Rack apps. Includes source code inspection, a live REPL and local/instance variable inspection for all stack frames.
+  gem 'binding_of_caller', '~> 0.7.2' # Retrieve the binding of a method's caller. Can also retrieve bindings even further up the stack.
+  gem 'debug-extras', '~> 0.3.4' # Provide debug helper methods for ActionController::Base and ActionView::Base.  
+  gem 'colorize', '~> 0.8.1' # Extends String class or add a ColorizedString with methods to set text color, background color and text effects.  
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -9,4 +9,4 @@ bundle exec rails db:seed
 # Apaga a pasta temporaria
 rm tmp/* -Rf 
 #  Roda nosso servidor
-bundle exec puma -C config/puma.rb
+bundle exec rails s

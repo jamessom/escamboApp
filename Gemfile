@@ -17,6 +17,7 @@ gem 'jquery-rails' # Use jquery as the JavaScript library
 gem 'turbolinks', '~> 5' # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'rails-i18n', '~> 5.0', '>= 5.0.4' #A set of common locale data and translations to internationalize and/or localize your Rails applications.
+gem 'bootstrap_sb_admin_base_v2', '~> 0.1.0' # Rails gem of the Bootstrap based admin theme SB Admin 2. Originally created by Start Bootstrap. You could check the original theme on https://github.com/IronSummitMedia/startbootstrap-sb-admin-2
 
 group :development, :test do
   gem 'byebug', platform: :mri # Call 'byebug' anywhere in the code to stop execution and get a debugger console

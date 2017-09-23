@@ -4,8 +4,6 @@ sudo: false
 
 env:
   - DB=postgresql
-  - DB=mysql
-  - DB=sqlite3
 
 rvm:
   - 2.2.5
@@ -13,7 +11,7 @@ rvm:
   - 2.4.0
 
 before_script:
-  - psql -c 'CREATE DATABASE brimir_test;' -U postgres
-  - mysql -e 'create database brimir_test;'
+  - psql -c 'CREATE DATABASE escamboapp_exchance_test;' -U postgres
+  - mysql -e 'create database escamboapp_exchance_test;'
   - cp config/database.travis config/database.yml
   - bundle exec rake db:migrate

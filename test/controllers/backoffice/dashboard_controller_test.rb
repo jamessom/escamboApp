@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class Backoffice::DashboardControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get backoffice_dashboard_index_url
+  test "should get path" do
+    get backoffice_dashboard_path
     assert_response :success
   end
 

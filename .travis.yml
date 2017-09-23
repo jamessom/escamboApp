@@ -1,0 +1,17 @@
+language: ruby
+cache: bundler
+sudo: false
+
+env:
+  - DB=postgresql
+
+rvm:
+  - 2.2.5
+  - 2.3.1
+  - 2.4.0
+
+before_script:
+  - psql -c 'CREATE DATABASE escamboapp_exchance_test;' -U postgres
+  - mysql -e 'create database escamboapp_exchance_test;'
+  - cp config/database.travis config/database.yml
+  - bundle exec rake db:migrate

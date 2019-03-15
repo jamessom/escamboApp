@@ -1,12 +1,12 @@
 <% if ENV['DB'] == 'postgresql' %>
 test:
   adapter: postgresql
-  database: escamboapp_exchance_test
+  database: escamboapp_test
   username: postgres
 <% elsif ENV['DB'] == 'mysql' %>
 test:
   adapter: mysql2
-  database: escamboapp_exchance_test
+  database: escamboapp_test
   username: root
 <% elsif ENV['DB'] == 'sqlite3' %>
 test:

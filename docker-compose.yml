@@ -1,28 +1,23 @@
-version: '2'
+version: "2"
 
 services:
   postgres:
-    image: 'postgres:9.5'
+    image: "postgres:9.5"
     logging:
       driver: "none"
     env_file: [".env"]
-    volumes:
-      - 'postgres:/var/lib/postgresql/data'
+    volumes: [ "postgres:/var/lib/postgresql/data" ]
 
-  app:
-    env_file: [".env"]
-    depends_on: ['postgres']
+  escambo_app:
+    image: escambo_app:latest
+    container_name: escambo_app
     build: .
-    command: bash start.sh
-    ports: ['3099:3000']
-    volumes: ['.:/escamboApp']
-    volumes_from: ['box']
-
-  box:
-    image: busybox
-    volumes:
-      - /box
+    env_file: [".env"]
+    depends_on: ["postgres"]
+    command: sh start.sh
+    ports: ["3099:3000"]
+    volumes: [".:/escamboApp", ".gems_escambo:/.gems_escambo"]
 
 volumes:
   postgres:
-  box:
+  .gems_escambo:

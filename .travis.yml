@@ -1,17 +1,21 @@
+dist: trusty
 language: ruby
 cache: bundler
 sudo: false
+
+addons:
+  postgresql: 9.6
 
 env:
   - DB=postgresql
 
 rvm:
-  - 2.2.5
-  - 2.3.1
-  - 2.4.0
+  - 2.4.1
 
 before_script:
-  - psql -c 'CREATE DATABASE escamboapp_exchance_test;' -U postgres
-  - mysql -e 'create database escamboapp_exchance_test;'
   - cp config/database.travis config/database.yml
-  - bundle exec rake db:migrate
+  - psql -c 'CREATE DATABASE escamboapp_test;' -U postgres
+
+  script:
+  - bundle exec rails db:migrate RAILS_ENV=test
+  - bundle exec rake test

@@ -7,7 +7,7 @@ end
 
 gem 'rails', '~> 5.0.1' # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg', '~> 0.18' # Use postgresql as the database for Active Record
-gem 'puma', '~> 3.0' # Use Puma as the app server
+gem 'puma', '~> 3.12' # Use Puma as the app server
 gem 'sass-rails', '~> 5.0' # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0' # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.2' # Use CoffeeScript for .coffee assets and views

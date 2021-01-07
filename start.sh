@@ -1,12 +1,18 @@
-# Instala as Gems
+#!/bin/sh
+
+echo '== Installing dependencies =='
+gem install bundler --conservative
 bundle check || bundle install
-#  Cria o banco de dados caso não exista
+
+echo '== Removing old logs and tempfiles =='
+bundle exec rails log:clear tmp:clear
+rm -rf ./tmp/pids/*
+
+echo '== Create database =='
 bundle exec rails db:create
-#  Roda migrations
+
+echo '== Run migrates =='
 bundle exec rails db:migrate
-#  Roda seeds
-bundle exec rails db:seed
-# Apaga a pasta temporaria
-rm tmp/* -Rf 
-#  Roda nosso servidor
-bundle exec rails s
+
+echo '== Starting application server =='
+bundle exec rails s --port 3000 -b 0.0.0.0

@@ -1,22 +1,31 @@
-version: "2"
+version: "3"
 
 services:
-  postgres:
+  escambo_db:
+    container_name: escambo_db
     image: "postgres:13-alpine"
-    logging:
-      driver: "none"
+    ports: [ "5432:5432" ]
+    networks: [ escambo_net ]
     env_file: [".env"]
     volumes: [ "postgres:/var/lib/postgresql/data" ]
+    logging:
+      driver: "none"
 
   escambo_app:
     image: escambo_app:latest
     container_name: escambo_app
     build: .
-    env_file: [".env"]
-    depends_on: ["postgres"]
     command: sh start.sh
-    ports: ["3099:3000"]
     volumes: [".:/escamboApp"]
+    ports: ["3099:3000"]
+    networks: [ escambo_net ]
+    env_file: [".env"]
+    links: [ escambo_db ]
+    depends_on: [ escambo_db ]
 
 volumes:
   postgres:
+
+networks:
+  escambo_net:
+    driver: bridge

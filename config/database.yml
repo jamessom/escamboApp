@@ -1,21 +1,19 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV['DATABASE_HOST'] %>
-  user: <%= ENV['DATABASE_USER'] %>
+  pool: <%= ENV['RAILS_MAX_THREADS'] %>
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASS'] %>
 
 development:
   <<: *default
-  database: <%= ENV['DATABASE_PREFIX'] %>_development
+  database: <%= ENV['DB_PREFIX'] %>_development
 
 test:
   <<: *default
-  database: <%= ENV['DATABASE_PREFIX'] %>_test
-
+  database: <%= ENV['DB_PREFIX'] %>_test
 
 production:
   <<: *default
-  database: <%= ENV['DATABASE_PREFIX'] %>_production
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
+  database: <%= ENV['DB_PREFIX'] %>

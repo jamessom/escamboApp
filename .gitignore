@@ -7,7 +7,12 @@
 # Ignore bundler config.
 /.bundle
 Gemfile.lock
-.gems_escambo/
+
+/vendor/assets/*
+/vendor/.gems_escambo/*
+public/assets/*
+public/system/*
+public/uploads/*
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -20,3 +25,19 @@ Gemfile.lock
 .idea/*
 
 .env
+/.env.*.local
+data/
+/shared
+
+
+*.sqlite3
+
+.DS_Store
+.vscode
+
+node_modules
+
+coverage
+coverage-public
+coverage-amd
+test-results

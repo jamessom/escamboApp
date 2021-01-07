@@ -2,7 +2,7 @@ version: "2"
 
 services:
   postgres:
-    image: "postgres:9.5"
+    image: "postgres:13-alpine"
     logging:
       driver: "none"
     env_file: [".env"]
@@ -16,8 +16,7 @@ services:
     depends_on: ["postgres"]
     command: sh start.sh
     ports: ["3099:3000"]
-    volumes: [".:/escamboApp", ".gems_escambo:/.gems_escambo"]
+    volumes: [".:/escamboApp"]
 
 volumes:
   postgres:
-  .gems_escambo:

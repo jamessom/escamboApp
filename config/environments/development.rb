@@ -7,14 +7,12 @@ Rails.application.configure do
 
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
-
     config.cache_store = :memory_store
     config.public_file_server.headers = {
       'Cache-Control' => 'public, max-age=172800'
     }
   else
     config.action_controller.perform_caching = false
-
     config.cache_store = :null_store
   end
 
@@ -27,6 +25,8 @@ Rails.application.configure do
 
   config.assets.debug = true
   config.assets.quiet = true
+
+  config.web_console.whitelisted_ips = %w( 0.0.0.0/0 ::/0 )
 
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

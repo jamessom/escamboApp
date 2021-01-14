@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'dashboard#index'
   end
 
-  devise_for :admins
+  devise_for :admins, path: 'admin', path_names: { sign_in: 'login', sign_out: 'logout'}
   devise_for :members
 
   root 'site/home#index'

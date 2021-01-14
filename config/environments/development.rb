@@ -27,6 +27,7 @@ Rails.application.configure do
   config.assets.quiet = true
 
   config.web_console.whitelisted_ips = %w( 0.0.0.0/0 ::/0 )
+  BetterErrors::Middleware.allow_ip! '0.0.0.0/0'
 
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

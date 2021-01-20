@@ -14,7 +14,9 @@ class Backoffice::CategoriesController < BackofficeController
       return render :new
     end
 
-    redirect_to backoffice_categories_path, notice: "Categoria #{@category.description} salva com sucesso!"
+    success_message = "Categoria #{@category.description} salva com sucesso!"
+
+    redirect_to backoffice_categories_path, notice: success_message
   end
 
   def edit; end

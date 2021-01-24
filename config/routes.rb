@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :admins, path: 'admin', path_names: { sign_in: 'login', sign_out: 'logout'}
+  devise_for :admins,
+             :skip => [:registrations],
+             path: 'admin',
+             path_names: { sign_in: 'login', sign_out: 'logout'}
   devise_for :members
 
   root 'site/home#index'

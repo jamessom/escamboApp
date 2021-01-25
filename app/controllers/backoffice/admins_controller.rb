@@ -1,3 +1,45 @@
 class Backoffice::AdminsController < BackofficeController
-  def index; end
+  before_action :set_admin, only: [:edit, :update]
+
+  def index
+    @admins = Admin.all
+  end
+
+  def new
+    @admin = Admin.new
+  end
+
+  def create
+    @admin = Admin.new(params_admin)
+
+    unless @admin.save
+      return render :new
+    end
+
+    success_message = "Administrador #{@admin.description} salvo com sucesso!"
+
+    redirect_to backoffice_admins_path, notice: success_message
+  end
+
+  def edit; end
+
+  def update
+    unless @admin.update(params_admin)
+      return render :edit
+    end
+
+    success_message = "Administrador #{@admin.description} atualizado com sucesso!"
+
+    redirect_to backoffice_admins_path, notice: success_message
+  end
+
+  private
+
+  def set_admin
+    @admin = Admin.find(params[:id])
+  end
+
+  def params_admin
+    params.require(:admin).permit(:email, :password, :password_confirmation)
+  end
 end

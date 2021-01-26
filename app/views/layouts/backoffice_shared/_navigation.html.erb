@@ -12,6 +12,9 @@
   <!-- /.navbar-header -->
 
   <ul class="nav navbar-top-links navbar-right">
+    <li>
+      <%= current_admin.email  %>
+    </li>
     <li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -60,13 +63,13 @@
         </li>
         <li>
           <%= link_to backoffice_admins_path do %>
-            <i class="fa fa-users fa-fw"></i> Admins
+            <i class="fa fa-users fa-fw"></i> Administradores
           <% end %>
         </li>
         <li>
-        <a href="/sb-admin2/pages/index.html">
+          <a href="/sb-admin2/pages/index.html">
             <i class="fa fa-trello fa-fw"></i> Template
-            </a>
+          </a>
         </li>
       </ul>
     </div>

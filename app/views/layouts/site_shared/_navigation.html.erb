@@ -15,7 +15,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a href="/admin/login">Login</a>
+          <% if admin_signed_in?  %>
+            <%= link_to 'Backoffice', backoffice_dashboard_path %>
+          <% else  %>
+            <%= link_to 'Login', new_admin_session_path %>
+          <% end  %>
         </li>
       </ul>
     </div>

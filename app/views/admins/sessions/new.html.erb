@@ -3,7 +3,7 @@
     <div class="col-md-4 col-md-offset-4">
       <div class="login-panel panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Please Sign In</h3>
+          <h3 class="panel-title">Login</h3>
         </div>
         <div class="panel-body">
           <%= form_for(resource, as: resource_name, role: 'form', url: session_path(resource_name)) do |f| %>
@@ -26,7 +26,6 @@
 
               <%= f.submit 'Log in', class: 'btn btn-lg btn-success btn-block' %>
             </fieldset>
-            <%= render "admins/shared/links" %>
           <% end %>
         </div>
       </div>

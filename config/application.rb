@@ -11,5 +11,7 @@ module App
     config.generators.helper false
     config.generators.javascript_engine :js
     config.generators.stylesheet_engine :scss
+
+    config.middleware.use Rack::Attack
   end
 end

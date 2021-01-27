@@ -16,7 +16,7 @@ class Backoffice::AdminsController < BackofficeController
       return render :new
     end
 
-    success_message = "Administrador #{@admin.description} salvo com sucesso!"
+    success_message = "Administrador #{@admin.email} salvo com sucesso!"
 
     redirect_to backoffice_admins_path, notice: success_message
   end
@@ -28,7 +28,7 @@ class Backoffice::AdminsController < BackofficeController
       return render :edit
     end
 
-    success_message = "Administrador #{@admin.description} atualizado com sucesso!"
+    success_message = "Administrador #{@admin.email} atualizado com sucesso!"
 
     redirect_to backoffice_admins_path, notice: success_message
   end

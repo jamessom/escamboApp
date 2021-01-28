@@ -49,6 +49,8 @@ jobs:
             - ./vendor/bundle
 
       # Database setup
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client-9.6
       - run: export RAILS_ENV=test
       - run: bundle exec rake db:schema:load
       - run: bundle exec rake db:migrate

@@ -13,5 +13,7 @@ module App
     config.generators.stylesheet_engine :scss
 
     config.middleware.use Rack::Attack
+
+    config.filter_parameters += [:password, :password_confirmation]
   end
 end

@@ -24,6 +24,11 @@ class Backoffice::AdminsController < BackofficeController
   def edit; end
 
   def update
+    if params_admin[:password].blank? && params_admin[:password_confirmation].blank?
+      params[:admin].delete(:password)
+      params[:admin].delete(:password_confirmation)
+    end
+
     unless @admin.update(params_admin)
       return render :edit
     end

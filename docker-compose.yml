@@ -15,7 +15,7 @@ services:
     image: escambo_app:latest
     container_name: escambo_app
     build: .
-    command: sh start.sh
+    command: sh container/start.sh
     volumes: [".:/escamboApp"]
     ports: ["3099:3000"]
     networks: [ escambo_net ]

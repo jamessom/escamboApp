@@ -7,30 +7,24 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/ruby:2.7.2-browsers
+      - image: cimg/ruby:2.7-node
         environment:
           RAILS_ENV: test
-          DATABASE_HOST: 127.0.0.1
-          DATABASE_USER: root
-          DATABASE_PREFIX: escamboapp
+          DB_USER: root
+          DB_HOST: 127.0.0.1
+          DB_PREFIX: escambo
+          DB_PASS: postgres
+          DB_PORT: 5432
       - image: circleci/postgres:9.6-alpine
         environment:
           POSTGRES_USER: root
-          POSTGRES_DB: escamboapp_test
+          POSTGRES_DB: escambo_test
+          POSTGRES_PASSWORD: ""
 
     working_directory: ~/repo
 
     steps:
       - checkout
-
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # Download and cache dependencies
       - restore_cache:
@@ -48,12 +42,20 @@ jobs:
           paths:
             - ./vendor/bundle
 
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
       # Database setup
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client-9.6
-      - run: export RAILS_ENV=test
-      - run: bundle exec rake db:schema:load
-      - run: bundle exec rake db:migrate
+      - run:
+          name: Setup DB
+          command: bundle exec rails db:create db:schema:load --trace
 
       # run tests!
       - run:

@@ -10,12 +10,17 @@ env:
   - DB=postgresql
 
 rvm:
-  - 2.4.1
+  - 2.7
 
 before_script:
   - cp config/database.travis config/database.yml
   - psql -c 'CREATE DATABASE escamboapp_test;' -U postgres
 
 script:
-  - bundle exec rails db:migrate RAILS_ENV=test
-  - bundle exec rake test
+  - gem update --system
+  - gem install bundler
+  - bundle install --jobs $(nproc)
+  - export RAILS_ENV=test
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:migrate
+  - bundle exec rails test

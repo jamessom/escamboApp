@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get 'backoffice', to: 'backoffice/dashboard#index'
     get 'dashboard', to: 'dashboard#index'
 
-    resources :categories, except: [:show, :destroy]
+    resources :categories, except: [:show]
     resources :admins, except: [:show]
   end
 end

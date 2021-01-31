@@ -1,5 +1,5 @@
 class Backoffice::CategoriesController < BackofficeController
-  before_action :set_category, only: [:edit, :update]
+  before_action :set_category, only: [:edit, :update, :destroy]
 
   def index
     @categories = Category.all
@@ -29,6 +29,18 @@ class Backoffice::CategoriesController < BackofficeController
     end
 
     success_message = "Categoria #{@category.description} atualizada com sucesso!"
+
+    redirect_to backoffice_categories_path, notice: success_message
+  end
+
+  def destroy
+    description = @category.description
+
+    unless @category.destroy
+      render :index
+    end
+
+    success_message = "Categoria #{description} deletada com sucesso!"
 
     redirect_to backoffice_categories_path, notice: success_message
   end

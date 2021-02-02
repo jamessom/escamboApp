@@ -18,11 +18,16 @@ gem 'turbolinks', '~> 5' # Turbolinks makes navigating your web application fast
 gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'rails-i18n', '~> 5.0', '>= 5.0.4' #A set of common locale data and translations to internationalize and/or localize your Rails applications.
 gem 'bootstrap_sb_admin_base_v2', '~> 0.3.6' # Rails gem of the Bootstrap based admin theme SB Admin 2. Originally created by Start Bootstrap. You could check the original theme on https://github.com/IronSummitMedia/startbootstrap-sb-admin-2
-gem 'rails-assets-bootstrap', '3.3.7', source: 'https://rails-assets.org' #The most popular front-end framework for developing responsive, mobile first projects on the web.
-gem 'rails-assets-notifyjs', source: 'https://rails-assets.org'
 gem 'rack-attack', '~> 6.4'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap', '3.3.7'
+  gem 'rails-assets-notifyjs'
+  gem 'rails-assets-bootbox'
+end
+
 group :development, :test do
+  gem 'faker'
   gem 'byebug', platform: :mri # Call 'byebug' anywhere in the code to stop execution and get a debugger console
 end
 

@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>Nome</th>
             <th>Email</th>
             <th>Ações</th>
           </tr>
@@ -25,6 +26,7 @@
           <% @admins.each do |admin| %>
             <tr>
               <td><%= admin.id  %></td>
+              <td><%= admin.name  %></td>
               <td><%= admin.email  %></td>
               <td>
                 <%= link_to edit_backoffice_admin_path(admin), class: "btn btn-info btn-circle" do %>

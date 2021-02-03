@@ -19,6 +19,8 @@ default_admin_data = {
   password_confirmation: '123qwe'
 }
 
+fake_pass = Faker::Alphanumeric.alphanumeric(number: 10, min_alpha: 3)
+
 puts 'Criando seed de categorias...'
 categories.each do |category|
   Category.find_or_create_by(description: category)
@@ -26,3 +28,15 @@ end
 
 puts 'Criando default admin'
 Admin.find_by_email(default_admin_data[:email]) || Admin.create!(default_admin_data)
+
+puts "Criando fake admins"
+10.times do
+  admins = {
+    name: Faker::Movies::BackToTheFuture.character,
+    email: Faker::Internet.email,
+    password: fake_pass,
+    password_confirmation: fake_pass
+  }
+
+  Admin.find_by_email(admins[:email]) || Admin.create!(admins)
+end if Admin.count <= 10

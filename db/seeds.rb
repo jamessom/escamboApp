@@ -16,7 +16,8 @@ default_admin_data = {
   name: "Administrador",
   email: 'admin@admin.com',
   password: '123qwe',
-  password_confirmation: '123qwe'
+  password_confirmation: '123qwe',
+  role: 0
 }
 
 fake_pass = Faker::Alphanumeric.alphanumeric(number: 10, min_alpha: 3)
@@ -35,7 +36,8 @@ puts "Criando fake admins"
     name: Faker::Movies::BackToTheFuture.character,
     email: Faker::Internet.email,
     password: fake_pass,
-    password_confirmation: fake_pass
+    password_confirmation: fake_pass,
+    role: [0,1].sample
   }
 
   Admin.find_by_email(admins[:email]) || Admin.create!(admins)

@@ -1,12 +1,11 @@
 # Ruby CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
+
 version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: cimg/ruby:2.7-node
         environment:
           RAILS_ENV: test
@@ -15,7 +14,7 @@ jobs:
           DB_PREFIX: escambo
           DB_PASS: postgres
           DB_PORT: 5432
-      - image: circleci/postgres:9.6-alpine
+      - image: circleci/postgres:13-ram
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: escambo_test
@@ -26,11 +25,9 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
@@ -52,18 +49,14 @@ jobs:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-      # Database setup
       - run:
           name: Setup DB
           command: bundle exec rails db:create db:schema:load --trace
 
-      # run tests!
       - run:
           name: run tests
-          command: |
-            bundle exec rails test
+          command: bundle exec rails test
 
-      # collect reports
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:

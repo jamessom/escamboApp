@@ -1,10 +1,11 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+version: 2.1
 
-version: 2
+orbs:
+  ruby: circleci/ruby@1.1.0
+
 jobs:
-  build:
+  test:
+    parallelism: 3
     docker:
       - image: cimg/ruby:2.7-node
         environment:
@@ -14,51 +15,28 @@ jobs:
           DB_PREFIX: escambo
           DB_PASS: postgres
           DB_PORT: 5432
-      - image: circleci/postgres:13-ram
+      - image: circleci/postgres:13
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: escambo_test
-          POSTGRES_PASSWORD: ""
-
-    working_directory: ~/repo
-
+          POSTGRES_PASSWORD: postgres
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
-
+      - ruby/install-deps
       - run:
-          name: install dependencies
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs $(nproc) --retry 3
-
-      - save_cache:
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - ./vendor/bundle
-
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run:
-          name: Setup DB
-          command: bundle exec rails db:create db:schema:load --trace
-
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
       - run:
           name: run tests
           command: bundle exec rails test
-
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test

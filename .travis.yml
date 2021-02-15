@@ -1,40 +1,27 @@
 language: ruby
 
-env:
-  global:
-    - RAILS_ENV=development
-    - RUBYOPT=W0
-    - POSTGRES_PASSWORD=postgres
-    - RAILS_MAX_THREADS=5
-    - DB_USER=postgres
-    - DB_HOST=escambo_db
-    - DB_PREFIX=escambo
-    - DB_PASS=postgres
-    - DB_PORT=5432
-
 services:
   - docker
 
+env:
+  global:
+    - RAILS_ENV=test
+
 before_install:
   - cp ./sample.env ./.env
-  - docker -v
-  - docker-compose -v
-  - docker-compose config --services
 
 install:
   - docker-compose build
 
 before_script:
   - cp ./sample.env ./.env
-  - docker-compose run --rm --no-deps escambo_app echo 'Gems now pre-installed.'
   - docker-compose up -d
-  - docker ps
-  - docker-compose run --no-deps escambo_app bundle exec rake db:migrate
-  - docker-compose run --no-deps escambo_app bundle exec rake db:create RAILS_ENV=test
-  - docker-compose run --no-deps escambo_app bundle exec rake db:migrate RAILS_ENV=test
+  - docker ps -a --format "table{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}"
+  - docker exec -it escambo_app bundle check || bundle install
+  - docker exec -it escambo_app bundle exec rails db:schema:load --trace
 
 script:
-  - docker-compose run --no-deps escambo_app bundle exec rails test
+  - docker exec -it escambo_app bundle exec rails test
 
 after_script:
   - docker-compose down

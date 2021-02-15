@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   test:
-    parallelism: 3
+    parallelism: 2
     docker:
       - image: cimg/ruby:2.7-node
         environment:
@@ -30,10 +30,10 @@ jobs:
           name: run tests
           command: bundle exec rails test
       - store_test_results:
-          path: /tmp/test-results
+          path: ./reports
       - store_artifacts:
-          path: /tmp/test-results
-          destination: test-results
+          path: ./reports
+          destination: reports
 
 workflows:
   version: 2

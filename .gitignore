@@ -41,3 +41,4 @@ coverage
 coverage-public
 coverage-amd
 test-results
+reports/*

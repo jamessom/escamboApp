@@ -1,27 +1,30 @@
-dist: xenial
 language: ruby
-sudo: false
-
-cache:
-  bundler: true
-  directories:
-  - vendor/bundle
 
 env:
-  - DB=postgresql
+  global:
 
-rvm:
-  - 2.7
+services:
+  - docker
+
+before_install:
+  - docker -v
+  - docker-compose -v
+  - docker-compose config
+  - cp sample.env .env
+
+install:
+  - docker-compose build
 
 before_script:
-  - cp config/database.travis config/database.yml
-  - psql -c 'CREATE DATABASE escamboapp_test;' -U postgres
+  - docker-compose run --rm --no-deps escambo_app echo 'Gems now pre-installed.'
+  - docker-compose up -d
+  - docker ps
+  - docker-compose run --no-deps escambo_app bundle exec rake db:migrate
+  - docker-compose run --no-deps escambo_app bundle exec rake db:create RAILS_ENV=test
+  - docker-compose run --no-deps escambo_app bundle exec rake db:migrate RAILS_ENV=test
 
 script:
-  - gem update --system
-  - gem install bundler
-  - bundle install --jobs $(nproc) --path=vendor/bundle
-  - export RAILS_ENV=test
-  - bundle exec rake db:schema:load
-  - bundle exec rake db:migrate
-  - bundle exec rails test
+  - docker-compose run --no-deps escambo_app bundle exec rails test
+
+after_script:
+  - docker-compose down

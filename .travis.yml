@@ -2,20 +2,30 @@ language: ruby
 
 env:
   global:
+    - RAILS_ENV=development
+    - RUBYOPT=W0
+    - POSTGRES_PASSWORD=postgres
+    - RAILS_MAX_THREADS=5
+    - DB_USER=postgres
+    - DB_HOST=escambo_db
+    - DB_PREFIX=escambo
+    - DB_PASS=postgres
+    - DB_PORT=5432
 
 services:
   - docker
 
 before_install:
+  - cp ./sample.env ./.env
   - docker -v
   - docker-compose -v
-  - docker-compose config
-  - cp sample.env .env
+  - docker-compose config --services
 
 install:
   - docker-compose build
 
 before_script:
+  - cp ./sample.env ./.env
   - docker-compose run --rm --no-deps escambo_app echo 'Gems now pre-installed.'
   - docker-compose up -d
   - docker ps

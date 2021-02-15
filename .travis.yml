@@ -1,27 +1,29 @@
+os: linux
 language: ruby
+dist: bionic
+
+rvm:
+  - 2.7.1
 
 services:
-  - docker
+  - postgresql
 
 env:
   global:
-    - RAILS_ENV=test
+    - DB=postgresql
 
-before_install:
-  - cp ./sample.env ./.env
-
-install:
-  - docker-compose build
+bundler_args: --path=vendor/bundle --jobs $(nproc)
+cache: bundler
 
 before_script:
-  - cp ./sample.env ./.env
-  - docker-compose up -d
-  - docker ps -a --format "table{{.Names}}\t{{.Image}}\t{{.Status}}\t{{.RunningFor}}"
-  - docker exec -it escambo_app bundle check || bundle install
-  - docker exec -it escambo_app bundle exec rails db:schema:load --trace
+  - cp config/database.travis config/database.yml
+  - psql -c 'CREATE DATABASE escamboapp_test;' -U postgres
 
 script:
-  - docker exec -it escambo_app bundle exec rails test
-
-after_script:
-  - docker-compose down
+  - gem update --system
+  - gem install bundler
+  - bundle check || bundle install
+  - export RAILS_ENV=test
+  - bundle exec rails db:schema:load
+  - bundle exec rails db:migrate
+  - bundle exec rails test

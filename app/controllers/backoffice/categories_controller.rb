@@ -10,39 +10,30 @@ class Backoffice::CategoriesController < BackofficeController
   end
 
   def create
-    @category = Category.new(params_category)
+    @category = CategoryServices::CreateCategory.call(params_category)
 
-    unless @category.save
-      return render :new
-    end
+    return render :new if @category.errors.any?
 
-    success_message = "Categoria #{@category.description} salva com sucesso!"
-
-    redirect_to backoffice_categories_path, notice: success_message
+    success_redirect(@category.description)
   end
 
   def edit; end
 
   def update
-    unless @category.update(params_category)
-      return render :edit
-    end
+    @category = CategoryServices::UpdateCategory.call(@category, params_category)
 
-    success_message = "Categoria #{@category.description} atualizada com sucesso!"
+    return render :new if @category.errors.any?
 
-    redirect_to backoffice_categories_path, notice: success_message
+    success_redirect(@category.description)
   end
 
   def destroy
     description = @category.description
+    @category = CategoryServices::DeleteCategory.call(@category)
 
-    unless @category.destroy
-      render :index
-    end
+    return render :new if @category.errors.any?
 
-    success_message = "Categoria #{description} deletada com sucesso!"
-
-    redirect_to backoffice_categories_path, notice: success_message
+    success_redirect(description)
   end
 
   private
@@ -53,5 +44,15 @@ class Backoffice::CategoriesController < BackofficeController
 
   def params_category
     params.require(:category).permit(:description)
+  end
+
+  def success_redirect(description)
+    messages = {
+      "create" => "Categoria #{description} cadastrada com sucesso!",
+      "update" => "Categoria #{description} salva com sucesso!",
+      "destroy" => "Categoria #{description} deletada com sucesso!"
+    }
+
+    redirect_to backoffice_categories_path, notice: messages[request[:action]]
   end
 end

@@ -10,46 +10,31 @@ class Backoffice::AdminsController < BackofficeController
   end
 
   def create
-    @admin = Admin.new(params_admin)
+    @admin = AdminServices::CreateAdmin.call(params_admin)
 
-    unless @admin.save
-      return render :new
-    end
+    return render :new if @admin.errors.any?
 
-    success_message = "Administrador #{@admin.email} salvo com sucesso!"
-
-    redirect_to backoffice_admins_path, notice: success_message
+    success_redirect(@admin.email)
   end
 
   def edit; end
 
   def update
-    if params_admin[:password].blank? && params_admin[:password_confirmation].blank?
-      params[:admin].delete(:password)
-      params[:admin].delete(:password_confirmation)
-    end
+    @admin = AdminServices::UpdateAdmin.call(@admin, params_admin)
 
-    unless @admin.update(params_admin)
-      return render :edit
-    end
+    return render :edit if @admin.errors.any?
 
-    success_message = "Administrador #{@admin.email} atualizado com sucesso!"
-
-    redirect_to backoffice_admins_path, notice: success_message
+    success_redirect(@admin.email)
   end
 
   def destroy
-    admin_email = @admin.email
+    email = @admin.email
+    @admin = AdminServices::DeleteAdmin.call(@admin)
 
-    unless @admin.destroy
-      render :index
-    end
+    return render :new if @admin.errors.any?
 
-    success_message = "Administrador #{admin_email} deletado com sucesso!"
-
-    redirect_to backoffice_admins_path, notice: success_message
+    success_redirect(email)
   end
-
 
   private
 
@@ -58,6 +43,17 @@ class Backoffice::AdminsController < BackofficeController
   end
 
   def params_admin
-    params.require(:admin).permit(:email, :password, :password_confirmation)
+    params.require(:admin)
+          .permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def success_redirect(email)
+    messages = {
+      "create" => "Administrador #{email} salvo com sucesso!",
+      "update" => "Administrador #{email} atualizado com sucesso!",
+      "destroy" => "Administrador #{email} deletado com sucesso!"
+    }
+
+    redirect_to backoffice_admins_path, notice: messages[request[:action]]
   end
 end

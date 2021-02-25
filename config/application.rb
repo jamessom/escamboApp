@@ -6,6 +6,8 @@ Bundler.require(*Rails.groups)
 
 module App
   class Application < Rails::Application
+    config.load_defaults 5.2
+
     config.i18n.default_locale = :"pt-BR"
 
     config.generators.helper false

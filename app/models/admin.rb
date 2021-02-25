@@ -3,11 +3,11 @@ class Admin < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   ROLES = {
-    :full_access => 0,
-    :restricted_access => 1
+    full_access: 0,
+    restricted_access: 1
   }
 
-  enum ROLES
+  enum role: ROLES
 
   scope :with_full_access, -> { where(role: ROLES[:full_access]) }
   scope :with_restricted_access, -> { where(role: ROLES[:restricted_access]) }

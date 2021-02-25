@@ -1,24 +1,21 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
-  "https://github.com/#{repo_name}.git"
-end
-
-gem 'rails', '~> 5.0.1'
-gem 'pg', '~> 0.18'
-gem 'puma', '~> 3.12'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'rails', '~> 5.2'
+gem 'pg', '~> 1.2'
+gem 'puma', '~> 5.2'
+gem 'sass-rails', '~> 5.1'
+gem 'uglifier', '~> 4.2'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise', '~> 4.7'
-gem 'devise-i18n', '~> 1.2'
+gem 'devise-i18n', '~> 1.9'
 gem 'jquery-rails'
-gem 'turbolinks', '~> 5'
-gem 'jbuilder', '~> 2.5'
-gem 'rails-i18n', '~> 5.0', '>= 5.0.4'
+gem 'turbolinks', '~> 5.2'
+gem 'jbuilder', '~> 2.11'
+gem 'rails-i18n', '~> 5.1'
 gem 'bootstrap_sb_admin_base_v2', '~> 0.3.6'
-gem 'rack-attack', '~> 6.4'
+gem 'rack-attack', '~> 6.5'
+gem 'bootsnap', '~> 1.1', require: false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap', '3.3.7'
@@ -28,19 +25,20 @@ end
 
 group :development, :test do
   gem 'faker'
-  gem 'byebug', platform: :mri
-  gem 'minitest-reporters', '~> 1.4', '>= 1.4.3'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'minitest-reporters', '~> 1.4'
+  gem 'capybara', '>= 2.15'
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '~> 3.0.5'
+  gem 'web-console', '~> 3.7'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'better_errors', '~> 2.3'
-  gem 'binding_of_caller', '~> 0.7.2'
-  gem 'debug-extras', '~> 0.3.4'
-  gem 'colorize', '~> 0.8.1'
+  gem 'spring-watcher-listen', '~> 2.0'
+  gem 'better_errors', '~> 2.9'
+  gem 'binding_of_caller', '~> 0.8'
+  gem 'debug-extras', '~> 0.4'
+  gem 'colorize'
 end
-
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

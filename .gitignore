@@ -19,10 +19,19 @@ public/uploads/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+/yarn-error.log
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+/public/assets
 
 # Ignore Byebug command history file.
 .byebug_history
 .idea/*
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
 
 .env
 /.env.*.local
@@ -35,7 +44,7 @@ data/
 .DS_Store
 .vscode
 
-node_modules
+/node_modules
 
 coverage
 coverage-public
